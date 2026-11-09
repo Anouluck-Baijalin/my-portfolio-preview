@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>Anouluck Baijalin | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            color-scheme: light;
+            --page-bg: #fff5b8;
+            --text: #1e293b;
+            --heading: #0f172a;
+            --rule: #b49b35;
+            --button-bg: #ffffff;
+            --button-border: #cbd5e1;
+            --pattern-line: rgb(134 104 0 / 12%);
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+            --page-bg: #111827;
+            --text: #d1d5db;
+            --heading: #f8fafc;
+            --rule: #566275;
+            --button-bg: #1f2937;
+            --button-border: #4b5563;
+            --pattern-line: rgb(255 255 255 / 10%);
+        }
+
+        body {
+            position: relative;
+            isolation: isolate;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: var(--page-bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            transition: background-color 180ms ease, color 180ms ease;
+        }
+
+        body::before {
+            position: fixed;
+            z-index: -1;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--pattern-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--pattern-line) 1px, transparent 1px);
+            background-size: 64px 64px;
+            content: "";
+            opacity: 0.55;
+            pointer-events: none;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .settings-menu {
+            position: relative;
+            flex: 0 0 auto;
+        }
+
+        .settings-trigger {
+            display: grid;
+            width: 2.75rem;
+            height: 2.75rem;
+            place-items: center;
+            border: 1px solid var(--button-border);
+            border-radius: 6px;
+            background: var(--button-bg);
+            color: var(--text);
+            cursor: pointer;
+            font-size: 1.5rem;
+            list-style: none;
+        }
+
+        .settings-trigger::-webkit-details-marker {
+            display: none;
+        }
+
+        .settings-panel {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            z-index: 1;
+            width: 220px;
+            padding: 0.75rem;
+            border: 1px solid var(--button-border);
+            border-radius: 6px;
+            background: var(--button-bg);
+            box-shadow: 0 8px 24px rgb(15 23 42 / 14%);
+        }
+
+        .settings-title {
+            margin: 0 0 0.5rem;
+            color: var(--text);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .profile-layout {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .profile-details {
+            min-width: 0;
+        }
+
+        .profile-name {
+            margin: 0 0 0.75rem;
+            font-size: 1.75rem;
+        }
+
+        .profile-facts {
+            display: grid;
+            gap: 0.4rem;
+            margin: 0;
+        }
+
+        .profile-fact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0 0.5rem;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .profile-fact dt {
+            color: var(--heading);
+            font-weight: 600;
+        }
+
+        .profile-fact dd {
+            margin: 0;
+        }
+
+        h1 {
+            margin-bottom: 0.5rem;
+            color: var(--heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--heading);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        .theme-toggle,
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            min-height: 2.75rem;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--button-border);
+            border-radius: 6px;
+            background: var(--button-bg);
+            color: var(--text);
+            font: inherit;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .theme-toggle:focus-visible,
+        .nav-link:focus-visible,
+        .settings-trigger:focus-visible,
+        .menu-link:focus-visible {
+            outline: 3px solid #38bdf8;
+            outline-offset: 2px;
+        }
+
+        .settings-panel .theme-toggle {
+            width: 100%;
+            margin-bottom: 0.25rem;
+        }
+
+        .menu-link {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .menu-link:hover {
+            background: var(--page-bg);
+        }
+
+        hr {
+            height: 2px;
+            margin: 2rem 0;
+            border: 0;
+            background: var(--rule);
+        }
+
+        .circular-image {
+            display: block;
+            width: min(220px, 40vw);
+            height: auto;
+            aspect-ratio: 1;
+            flex: 0 0 auto;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        ul {
+            margin-bottom: 1rem;
+            list-style-position: inside;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        #achievements {
+            margin-top: 4rem;
+        }
+
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .achievement-card {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--button-border);
+            border-radius: 6px;
+            background: var(--button-bg);
+        }
+
+        .achievement-trigger {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .achievement-trigger:focus-visible {
+            outline: 3px solid #38bdf8;
+            outline-offset: -3px;
+        }
+
+        .achievement-dialog {
+            width: min(560px, calc(100vw - 2rem));
+            max-height: min(88vh, 760px);
+            margin: auto;
+            padding: 1.25rem;
+            overflow: auto;
+            border: 1px solid var(--button-border);
+            border-radius: 8px;
+            background: var(--button-bg);
+            color: var(--text);
+            box-shadow: 0 20px 60px rgb(15 23 42 / 22%);
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            transition: opacity 260ms ease, transform 260ms ease;
+        }
+
+        .achievement-dialog[open].is-closing {
+            opacity: 0;
+            transform: translateY(12px) scale(0.98);
+        }
+
+        .achievement-dialog::backdrop {
+            background-color: rgb(15 23 42 / 38%);
+            backdrop-filter: blur(5px);
+            transition: background-color 200ms ease 260ms, backdrop-filter 200ms ease 260ms;
+        }
+
+        @starting-style {
+            .achievement-dialog[open] {
+                opacity: 0;
+                transform: translateY(12px) scale(0.98);
+            }
+
+            .achievement-dialog[open]::backdrop {
+                background-color: transparent;
+                backdrop-filter: blur(0);
+            }
+        }
+
+        .achievement-dialog[open].is-closing::backdrop {
+            background-color: transparent;
+            backdrop-filter: blur(0);
+            transition-delay: 0ms;
+        }
+
+        .achievement-dialog-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .achievement-dialog-header h3 {
+            margin: 0;
+            color: var(--heading);
+            font-size: 1.4rem;
+        }
+
+        .achievement-dialog-close {
+            display: grid;
+            width: 2.5rem;
+            height: 2.5rem;
+            flex: 0 0 auto;
+            place-items: center;
+            border: 1px solid var(--button-border);
+            border-radius: 6px;
+            background: var(--button-bg);
+            color: var(--text);
+            cursor: pointer;
+            font: inherit;
+            font-size: 1.25rem;
+        }
+
+        .achievement-dialog-close:focus-visible {
+            outline: 3px solid #38bdf8;
+            outline-offset: 2px;
+        }
+
+        .achievement-dialog > p {
+            margin: 0.75rem 0 0;
+            text-align: left;
+        }
+
+        .achievement-gallery {
+            margin-top: 1.25rem;
+        }
+
+        .achievement-slides {
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .achievement-slide {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border: 1px dashed var(--rule);
+            border-radius: 4px;
+        }
+
+        .achievement-slide[hidden],
+        .achievement-photo-placeholder[hidden],
+        .achievement-gallery-controls[hidden] {
+            display: none;
+        }
+
+        .achievement-photo-placeholder {
+            display: grid;
+            aspect-ratio: 16 / 9;
+            place-items: center;
+            border: 1px dashed var(--rule);
+            border-radius: 4px;
+            background: var(--page-bg);
+            color: var(--text);
+            text-align: center;
+        }
+
+        .achievement-gallery-controls {
+            display: grid;
+            grid-template-columns: 2.5rem 1fr 2.5rem;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .gallery-control {
+            display: grid;
+            width: 2.5rem;
+            height: 2.5rem;
+            place-items: center;
+            border: 1px solid var(--button-border);
+            border-radius: 6px;
+            background: var(--button-bg);
+            color: var(--text);
+            cursor: pointer;
+            font: inherit;
+            font-size: 1.25rem;
+        }
+
+        .gallery-control:focus-visible {
+            outline: 3px solid #38bdf8;
+            outline-offset: 2px;
+        }
+
+        .gallery-count {
+            color: var(--text);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .achievement-photo {
+            display: grid;
+            aspect-ratio: 4 / 3;
+            place-items: center;
+            border-bottom: 1px dashed var(--rule);
+            background: var(--page-bg);
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+
+        .achievement-copy {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            padding: 1rem;
+            text-align: left;
+        }
+
+        .achievement-title {
+            display: block;
+            margin-bottom: 0.4rem;
+            color: var(--heading);
+            font-size: 1.1rem;
+        }
+
+        .achievement-description {
+            display: block;
+            flex: 1;
+        }
+
+        .achievement-disclosure {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+            color: var(--heading);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .achievement-disclosure::after {
+            content: "+";
+            font-size: 1.25rem;
+        }
+
+        .achievement-trigger[aria-expanded="true"] .achievement-disclosure::after {
+            content: "\2212";
+        }
+
+        .achievement-more {
+            margin-top: 1.25rem;
+            padding: 1rem;
+            border: 1px solid var(--button-border);
+            border-radius: 6px;
+            text-align: left;
+        }
+
+        .achievement-more h4 {
+            margin-bottom: 0.75rem;
+            color: var(--heading);
+            font-size: 0.95rem;
+        }
+
+        .achievement-more-space {
+            min-height: 6rem;
+            padding: 0.875rem;
+            border: 1px dashed var(--rule);
+            border-radius: 4px;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+
+        #contact a {
+            color: var(--heading);
+        }
+
+        .contact-section {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        #contact + hr {
+            margin-top: 0.75rem;
+        }
+
+        .contact-copy {
+            min-width: 0;
+        }
+
+        .contact-copy p:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 1.25rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .achievement-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-section {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .contact-section .nav-link {
+                align-self: flex-end;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            body {
+                transition: none;
+            }
+
+            .achievement-dialog,
+            .achievement-dialog::backdrop {
+                transition-duration: 1ms;
+                transition-delay: 0ms;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="top">
+        <div class="topbar">
+        <div>
+            <h1>Portfolio</h1>
+        </div>
+            <details class="settings-menu">
+                <summary class="settings-trigger" aria-label="Common features" title="Common features">
+                    <span aria-hidden="true">&#9881;</span>
+                </summary>
+                <div class="settings-panel">
+                    <p class="settings-title">Appearance</p>
+                    <button class="theme-toggle" type="button" aria-pressed="false">Dark mode</button>
+                    <a class="menu-link" href="#top">Back to top</a>
+                </div>
+            </details>
+        </div>
+    </header>
+    <section id="contact" class="contact-section">
+        <div class="contact-copy">
+            <h2>Get in Touch</h2>
+            <p>Contact details are hidden in this public preview.</p>
+        </div>
+        <a class="nav-link" href="#achievements">Achievements</a>
+    </section>
+    <hr>
+
+    <section class="profile-layout" aria-label="Profile">
+        <img class="circular-image" src="profile-avatar.jpg" alt="SpongeBob smiling in his underwater suit" width="220" height="220">
+        <div class="profile-details">
+            <h2 class="profile-name">Anouluck Baijalin</h2>
+            <p class="profile-facts">Portfolio preview</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>About Me</h2>
+        <p>I'm a high school student with a passion in environmental-related fields, languages and technology.</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Background</h2>
+        <p>My background centers on community service, stage management, and local climate action initiatives. With deep fluency in the English language, I also have experience teaching and mentoring others, leveraging clear communication to drive community projects forward.</p>
+    </section>
+
+    <section id="achievements">
+        <h2>Achievements</h2>
+        <div class="achievement-grid">
+            <article class="achievement-card">
+                <button class="achievement-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="community-dialog">
+                        <span class="achievement-photo" role="img" aria-label="Photo slot for community service">Add photo</span>
+                        <span class="achievement-copy">
+                            <strong class="achievement-title">Community Service</strong>
+                            <span class="achievement-description">Contributions to community service initiatives.</span>
+                            <span class="achievement-disclosure">More information</span>
+                        </span>
+                </button>
+                <dialog class="achievement-dialog" id="community-dialog" aria-labelledby="community-title">
+                    <div class="achievement-dialog-header">
+                        <h3 id="community-title">Community Service</h3>
+                        <button class="achievement-dialog-close" type="button" aria-label="Close community service details">&#215;</button>
+                    </div>
+                    <div class="achievement-gallery" aria-label="Community service photos">
+                        <div class="achievement-slides" aria-live="polite">
+                            <div class="achievement-photo-placeholder">No photos added yet.</div>
+                        </div>
+                        <div class="achievement-gallery-controls" hidden>
+                            <button class="gallery-control gallery-prev" type="button" aria-label="Previous photo" title="Previous photo">&#8592;</button>
+                            <span class="gallery-count" aria-live="polite">1 / 4</span>
+                            <button class="gallery-control gallery-next" type="button" aria-label="Next photo" title="Next photo">&#8594;</button>
+                        </div>
+                    </div>
+                    <p>Contributions to community service initiatives.</p>
+                    <div class="achievement-more">
+                        <h4>Additional details</h4>
+                        <div class="achievement-more-space">I participate in a volunteer group and help organize regular community clean-ups.</div>
+                    </div>
+                </dialog>
+            </article>
+            <article class="achievement-card">
+                <button class="achievement-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="stage-dialog">
+                        <span class="achievement-photo" role="img" aria-label="Photo slot for stage management">Add photo</span>
+                        <span class="achievement-copy">
+                            <strong class="achievement-title">Stage Management</strong>
+                            <span class="achievement-description">Experience supporting stage productions.</span>
+                            <span class="achievement-disclosure">More information</span>
+                        </span>
+                </button>
+                <dialog class="achievement-dialog" id="stage-dialog" aria-labelledby="stage-title">
+                    <div class="achievement-dialog-header">
+                        <h3 id="stage-title">Stage Management</h3>
+                        <button class="achievement-dialog-close" type="button" aria-label="Close stage management details">&#215;</button>
+                    </div>
+                    <div class="achievement-gallery" aria-label="Stage management photos">
+                        <div class="achievement-slides" aria-live="polite">
+                            <div class="achievement-photo-placeholder">No photos added yet.</div>
+                        </div>
+                        <div class="achievement-gallery-controls" hidden>
+                            <button class="gallery-control gallery-prev" type="button" aria-label="Previous photo" title="Previous photo">&#8592;</button>
+                            <span class="gallery-count" aria-live="polite">1 / 4</span>
+                            <button class="gallery-control gallery-next" type="button" aria-label="Next photo" title="Next photo">&#8594;</button>
+                        </div>
+                    </div>
+                    <p>Experience supporting stage productions.</p>
+                    <div class="achievement-more">
+                        <h4>Additional details</h4>
+                        <div class="achievement-more-space">I have gained experience in stage management and administration, including media projection, audio engineering, and emceeing.</div>
+                    </div>
+                </dialog>
+            </article>
+            <article class="achievement-card">
+                <button class="achievement-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="climate-dialog">
+                        <span class="achievement-photo" role="img" aria-label="Photo slot for local climate action">Add photo</span>
+                        <span class="achievement-copy">
+                            <strong class="achievement-title">Charity Campaign</strong>
+                            <span class="achievement-description">Participation in local charity campaign.</span>
+                            <span class="achievement-disclosure">More information</span>
+                        </span>
+                </button>
+                <dialog class="achievement-dialog" id="climate-dialog" aria-labelledby="climate-title">
+                    <div class="achievement-dialog-header">
+                        <h3 id="climate-title">Local Charity Campaign</h3>
+                        <button class="achievement-dialog-close" type="button" aria-label="Close local climate action details">&#215;</button>
+                    </div>
+                    <div class="achievement-gallery" aria-label="Local climate action photos">
+                        <div class="achievement-slides" aria-live="polite">
+                            <div class="achievement-photo-placeholder">No photos added yet.</div>
+                        </div>
+                        <div class="achievement-gallery-controls" hidden>
+                            <button class="gallery-control gallery-prev" type="button" aria-label="Previous photo" title="Previous photo">&#8592;</button>
+                            <span class="gallery-count" aria-live="polite">1 / 4</span>
+                            <button class="gallery-control gallery-next" type="button" aria-label="Next photo" title="Next photo">&#8594;</button>
+                        </div>
+                    </div>
+                    <p>Participation in local charity campaign.</p>
+                    <div class="achievement-more">
+                        <h4>Additional details</h4>
+                        <div class="achievement-more-space">Add dates, your role, and the impact here.</div>
+                    </div>
+                </dialog>
+            </article>
+            <article class="achievement-card">
+                <button class="achievement-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="mentoring-dialog">
+                        <span class="achievement-photo" role="img" aria-label="Photo slot for teaching and mentoring">Add photo</span>
+                        <span class="achievement-copy">
+                            <strong class="achievement-title">Teaching &amp; Mentoring</strong>
+                            <span class="achievement-description">Teaching and mentoring others through clear communication.</span>
+                            <span class="achievement-disclosure">More information</span>
+                        </span>
+                </button>
+                <dialog class="achievement-dialog" id="mentoring-dialog" aria-labelledby="mentoring-title">
+                    <div class="achievement-dialog-header">
+                        <h3 id="mentoring-title">Teaching &amp; Mentoring</h3>
+                        <button class="achievement-dialog-close" type="button" aria-label="Close teaching and mentoring details">&#215;</button>
+                    </div>
+                    <div class="achievement-gallery" aria-label="Teaching and mentoring photos">
+                        <div class="achievement-slides" aria-live="polite">
+                            <div class="achievement-photo-placeholder">No photos added yet.</div>
+                        </div>
+                        <div class="achievement-gallery-controls" hidden>
+                            <button class="gallery-control gallery-prev" type="button" aria-label="Previous photo" title="Previous photo">&#8592;</button>
+                            <span class="gallery-count" aria-live="polite">1 / 4</span>
+                            <button class="gallery-control gallery-next" type="button" aria-label="Next photo" title="Next photo">&#8594;</button>
+                        </div>
+                    </div>
+                    <p>Teaching and mentoring others through clear communication.</p>
+                    <div class="achievement-more">
+                        <h4>Additional details</h4>
+                        <div class="achievement-more-space">Add dates, your role, and the impact here.</div>
+                    </div>
+                </dialog>
+            </article>
+        </div>
+    </section>
+
+    <script>
+        const achievementCards = document.querySelectorAll('.achievement-card');
+        const closeDuration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 260;
+
+        achievementCards.forEach((card) => {
+            const trigger = card.querySelector('.achievement-trigger');
+            const dialog = card.querySelector('.achievement-dialog');
+            const closeButton = card.querySelector('.achievement-dialog-close');
+            const slides = [...dialog.querySelectorAll('img.achievement-slide')];
+            const galleryCount = dialog.querySelector('.gallery-count');
+            const galleryControls = dialog.querySelector('.achievement-gallery-controls');
+            const photoPlaceholder = dialog.querySelector('.achievement-photo-placeholder');
+            let activeSlide = 0;
+
+            function showSlide(index) {
+                if (slides.length === 0) {
+                    return;
+                }
+
+                activeSlide = (index + slides.length) % slides.length;
+                slides.forEach((slide, slideIndex) => {
+                    slide.hidden = slideIndex !== activeSlide;
+                });
+                galleryCount.textContent = `${activeSlide + 1} / ${slides.length}`;
+            }
+
+            function closeDialog() {
+                if (!dialog.open || dialog.classList.contains('is-closing')) {
+                    return;
+                }
+
+                dialog.classList.add('is-closing');
+                window.setTimeout(() => {
+                    dialog.close();
+                    dialog.classList.remove('is-closing');
+                }, closeDuration);
+            }
+
+            trigger.addEventListener('click', () => {
+                dialog.classList.remove('is-closing');
+                dialog.showModal();
+                trigger.setAttribute('aria-expanded', 'true');
+                closeButton.focus();
+            });
+
+            closeButton.addEventListener('click', closeDialog);
+            dialog.querySelector('.gallery-prev').addEventListener('click', () => showSlide(activeSlide - 1));
+            dialog.querySelector('.gallery-next').addEventListener('click', () => showSlide(activeSlide + 1));
+            dialog.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    event.preventDefault();
+                    closeDialog();
+                }
+            });
+            dialog.addEventListener('cancel', (event) => {
+                event.preventDefault();
+                closeDialog();
+            });
+            dialog.addEventListener('click', (event) => {
+                const bounds = dialog.getBoundingClientRect();
+                const clickedOutside = event.clientX < bounds.left || event.clientX > bounds.right ||
+                    event.clientY < bounds.top || event.clientY > bounds.bottom;
+
+                if (clickedOutside) {
+                    closeDialog();
+                }
+            });
+            dialog.addEventListener('close', () => {
+                trigger.setAttribute('aria-expanded', 'false');
+                trigger.focus();
+            });
+
+            photoPlaceholder.hidden = slides.length > 0;
+            galleryControls.hidden = slides.length < 2;
+            showSlide(0);
+        });
+
+        const themeToggle = document.querySelector('.theme-toggle');
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        function setTheme(theme) {
+            const isDark = theme === 'dark';
+            document.documentElement.dataset.theme = theme;
+            themeToggle.textContent = isDark ? 'Light mode' : 'Dark mode';
+            themeToggle.setAttribute('aria-pressed', String(isDark));
+        }
+
+        setTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+
+        themeToggle.addEventListener('click', () => {
+            const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+            setTheme(nextTheme);
+            localStorage.setItem('theme', nextTheme);
+        });
+    </script>
+</body>
+</html>
+
